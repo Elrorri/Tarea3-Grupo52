@@ -5,61 +5,74 @@
 ///////////////////////////////////
 
 struct rep_persona {
+    nat id,edad;
+    char nombre[MAX_NOMBRE];
+    TAgendaLS agenda;
 
 };
 
 TPersona crearTPersona(nat id, nat edad, const char nombre[MAX_NOMBRE], TAgendaLS agenda) {
-    return NULL;
+    TPersona nuevo;
+    nuevo = new rep_persona;
+    nuevo->id = id;
+    nuevo->edad = edad;
+    strcpy(nuevo->nombre,nombre);
+    nuevo->agenda = agenda;
+    return nuevo;
 }
 
 void liberarTPersona(TPersona &persona) {
-
+    liberarAgendaLS(persona->agenda);
+    delete persona;
 }
 
 //Imprime a la persona utilizando printf e imprimeAgendaLS
 void imprimirTPersona(TPersona persona) {
-
+    printf("Persona %d: %s, %d años\n",persona->id,persona->nombre,persona->edad);
+    imprimirAgendaLS(persona->agenda);
 }
 
 nat idTPersona(TPersona persona) {
-    return 0;
+    return persona->id;
 }
 
 nat edadTPersona(TPersona persona) {
-    return 0;
+    return persona->edad;
 }
 
 char* nombreTPersona(TPersona persona) {
-    return NULL;
+    return persona->nombre;
 }
 
 TAgendaLS agendaTPersona(TPersona persona) {
-    return NULL;
+    return persona->agenda;
 }
 
 void agregarEventoATPersona(TPersona &persona, TEvento evento) {
+    agregarEnAgendaLS(persona->agenda,evento);
 
 }
 
 void posponerEventoEnTPersona(TPersona &persona, int id, nat n) {
-
+    posponerEnAgendaLS(persona->agenda,id,n);
 }
 
 void removerEventoDeTPersona(TPersona &persona, int id) {
-
+    removerDeAgendaLS(persona->agenda,id);
 }
-
+//aca
 bool estaEnAgendaDeTPersona(TPersona persona, int id) {
-    return false;
+    return estaEnAgendaLS(persona->agenda,id);
 }
 
 TEvento obtenerDeAgendaDeTPersona(TPersona persona, int id) {
-    return NULL;
+    return obtenerDeAgendaLS(persona->agenda,id);
 }
 
 TPersona copiarTPersona(TPersona persona) {
-    return NULL;
+    return crearTPersona(persona->id,persona->edad,persona->nombre,copiarAgendaLS(persona->agenda));
 }
+
 
 ///////////////////////////////////
 ////// FIN CÓDIGO TAREA 2 //////
