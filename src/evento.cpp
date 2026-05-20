@@ -47,6 +47,17 @@ TFecha fechaTEvento(TEvento evento) {
 void posponerTEvento(TEvento &evento, int dias) {
     aumentarTFecha(evento->fecha,dias);
 }
+/*-----------------------------*/
+
+///////////////////////////
+////// FUNCION NUEVA //////
+///////////////////////////
+
+// Retorna una copia del evento
+TEvento copiarTEvento(TEvento evento) {
+    return crearTEvento(idTEvento(evento),evento->desc,copiarTFecha(fechaTEvento(evento)));
+}
+
 
 /////////////////////////////////
 ////// FIN CÓDIGO TAREA 2 //////
