@@ -3,7 +3,6 @@
 ///////////////////////////////////
 ////// PEGAR CÓDIGO TAREA 2 //////
 ///////////////////////////////////
-
 struct listaDoblePersonas{
     TPersona persona;
     listaDoblePersonas* ant;
@@ -13,6 +12,7 @@ struct listaDoblePersonas{
 struct rep_personasLDE {
     listaDoblePersonas* inicio;
     listaDoblePersonas* fin;
+    nat cant;
 };
 
 typedef listaDoblePersonas* listaDpersonas;
@@ -22,6 +22,7 @@ TPersonasLDE crearTPersonasLDE(){
     nuevo = new rep_personasLDE;
     nuevo->inicio = NULL;
     nuevo->fin = NULL;
+    nuevo->cant = 0;
     return nuevo;
 }
 
@@ -29,6 +30,7 @@ void insertarTPersonasLDE(TPersonasLDE &personas, TPersona persona, nat pos){
     listaDpersonas nuevo,aux;
     nuevo = new listaDoblePersonas;
     nuevo->persona = persona;
+    personas->cant ++;
 
     if(pos == 1){
         nuevo->sig = personas->inicio;
@@ -86,10 +88,10 @@ void liberarTPersonasLDE(TPersonasLDE &personasLDE){
         aux = personasLDE->inicio;
     }
     personasLDE->fin = NULL;
+    personasLDE->cant = 0;
     delete personasLDE;
     personasLDE = NULL;
 }
-
 
 void imprimirTPersonasLDE(TPersonasLDE personas){
     listaDpersonas aux = personas->inicio;
@@ -100,23 +102,14 @@ void imprimirTPersonasLDE(TPersonasLDE personas){
 }
 
 nat cantidadTPersonasLDE(TPersonasLDE personas){
-    nat cant = 0;
-    listaDpersonas aux = personas->inicio;
-    if (aux != NULL){
-        cant = 1;
-    }
-    while(aux != personas->fin){
-        cant++;
-        aux = aux->sig;
-    }
-    aux = NULL;
-    return cant;
+    return (personas->cant);
 }
 
 void eliminarInicioTPersonasLDE(TPersonasLDE &personas){
     listaDpersonas aux;
     aux = personas->inicio;
     if (aux != NULL){
+        personas->cant --;
         personas->inicio = aux->sig;
         if(aux->sig != NULL){
             aux->sig->ant = NULL;
@@ -127,13 +120,13 @@ void eliminarInicioTPersonasLDE(TPersonasLDE &personas){
         delete aux;
     }
     aux = NULL;
-
 }
 
 void eliminarFinalTPersonasLDE(TPersonasLDE &personas){
     listaDpersonas aux;
     aux = personas->fin;
     if (aux != NULL){
+        personas->cant --;
         personas->fin = aux->ant;
         if (aux->ant != NULL){
             aux->ant->sig = NULL;
@@ -180,6 +173,7 @@ TPersonasLDE concatenarTPersonasLDE(TPersonasLDE personas1, TPersonasLDE persona
         nuevo->inicio = personas1->inicio;
         nuevo->fin = personas1->fin;
     }
+    nuevo->cant = personas1->cant + personas2->cant;
     personas1->inicio = personas2->inicio = NULL;
     personas1->fin = personas2->fin = NULL;
     delete personas1;
@@ -187,6 +181,7 @@ TPersonasLDE concatenarTPersonasLDE(TPersonasLDE personas1, TPersonasLDE persona
 
     return nuevo;
 }
+
 
 ///////////////////////////////////
 ////// FIN CÓDIGO TAREA 2 //////
@@ -197,19 +192,19 @@ TPersonasLDE concatenarTPersonasLDE(TPersonasLDE personas1, TPersonasLDE persona
 ///////////////////////////////////////////////////////////////////////////
 
 void insertarInicioDeTPersonasLDE(TPersonasLDE &personas, TPersona persona){
-    
+    insertarTPersonasLDE(personas,persona,1);
 }
 
 void insertarFinalDeTPersonasLDE(TPersonasLDE &personas, TPersona persona){    
-
+    insertarTPersonasLDE(personas,persona,personas->cant+1);
 }
 
 TPersona obtenerInicioDeTPersonasLDE(TPersonasLDE personas){
-    return NULL;
+    return personas->inicio->persona;
 }
 
 TPersona obtenerFinalDeTPersonasLDE(TPersonasLDE personas){
-    return NULL;
+    return personas->fin->persona;
 }
 
 ///////////////////////////////////////////////////////////////////////////
